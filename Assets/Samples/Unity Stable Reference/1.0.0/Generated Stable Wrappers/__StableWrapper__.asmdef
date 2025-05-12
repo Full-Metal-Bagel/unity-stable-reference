@@ -1,0 +1,17 @@
+{
+    "name": "__StableWrapper__",
+    "rootNamespace": "__StableWrapper__",
+    "references": [
+        "GUID:356f1f8b5f992b747843c9c4239dc82f",
+        "GUID:fbb9ebcb295c64429b7e15e80cd95aa1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
