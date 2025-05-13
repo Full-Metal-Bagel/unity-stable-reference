@@ -1,0 +1,13 @@
+{
+  "name": "com.fullmetalbagel.unity-stable-reference",
+  "version": "1.0.0",
+  "displayName": "Unity Stable Reference",
+  "unity": "2022.3",
+  "samples": [
+    {
+      "displayName": "Generated Stable Wrappers",
+      "description": "Generated Stable Wrappers",
+      "path": "Samples~/__StableWrapper__"
+    }
+  ]
+}

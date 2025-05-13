@@ -1,0 +1,3 @@
+using UnityStableReference;
+
+[assembly: StableWrapperCodeGen]

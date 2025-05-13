@@ -1,7 +1,79 @@
-# unity-package-template
-template repo for unity package development
+# Unity Stable Reference
 
-- [Unity unit tests](.github/workflows/unity-test.yaml) for both Mono and IL2CPP backend trigger by PR. ([follow those steps](https://game.ci/docs/github/test-runner#personal-license) to get your personal lisence of Unity and fill it into your site secrets)
-- [Release](.github/workflows/publish-upm-package.yml) [.unitypackage](https://github.com/quabug/unity-package-template/releases/tag/v0.0.1) in Release page and publish to [OpenUPM](https://openupm.com/docs/adding-upm-package.html#adding-upm-package).
-- [.NET unit tests](.github/workflows/dotnet-unit-test.yml) for Windows, Linux and MacOS.
-- [Publish NuGET package](.github/workflows/publish-nuget-package.yml).
+A Unity package that provides stable serialized references to objects through source generation, allowing for reliable serialization even after type changes.
+
+## Requirements
+
+- Unity 2022.3 or newer
+
+## Overview
+
+Unity Stable Reference solves the problem of maintaining references to objects in Unity when types change or evolve. By generating wrapper classes with stable GUIDs, it ensures that serialized references remain valid across code changes and refactoring.
+
+## Features
+
+- Creates stable serialized references with GUIDs
+- Works with any C# type including interfaces
+- Uses source generation for compile-time type safety
+- Minimal runtime overhead
+- No dependencies on third-party packages
+
+## How It Works
+
+Unity Stable Reference uses Roslyn source generators to create stable wrapper classes for your types. When you mark a type with the `[StableWrapperCodeGen]` attribute and a `[Guid]` attribute, the system generates specialized wrapper classes that can be reliably serialized by Unity.
+
+## Installation
+
+### Via Unity Package Manager
+
+1. Open the Package Manager in Unity (Window > Package Manager)
+2. Click the "+" button and select "Add package from git URL..."
+3. Enter: `https://github.com/quabug/unity-stable-reference.git`
+
+### Manual Installation
+
+Clone this repository and copy the contents to your project's Packages directory.
+
+## Usage
+
+1. Import the sample "Generated Stable Wrappers":
+   - Open the Package Manager in Unity (Window > Package Manager)
+   - Select the "Unity Stable Reference" package
+   - Click on "Samples" and import "Generated Stable Wrappers"
+
+2. Reference your assembly in the sample's assembly definition:
+   - Navigate to the imported sample folder (usually in Assets/Samples/Unity Stable Reference/1.0.0/__StableWrapper__)
+   - Open the assembly definition file (asmdef)
+   - Add your project's assembly as a reference in the Inspector
+
+3. Add necessary attribute to your type:
+
+```csharp
+using System.Runtime.InteropServices;
+using UnityStableReference;
+
+[Guid("8F9CC34B-A30B-48AB-967C-5B3F0CE0793A"), StableWrapperCodeGen]
+public class Foo : IFoo { }
+```
+
+4. Use the `StableReference<T>` type in your MonoBehaviours:
+
+```csharp
+[Serializable]
+public class MyComponent : MonoBehaviour
+{
+    [SerializeField] private StableReference<IFoo> _foo;
+    
+    public void DoSomething()
+    {
+        // Access the wrapped object
+        IFoo foo = _foo.Value;
+        // or use implicit conversion
+        IFoo foo2 = _foo;
+    }
+}
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
