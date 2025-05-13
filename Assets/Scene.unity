@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1469426791}
   - component: {fileID: 1469426790}
+  - component: {fileID: 1469426792}
   m_Layer: 0
   m_Name: Foo
   m_TagString: Untagged
@@ -153,15 +154,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Reference:
     _wrapper:
-      rid: 8499410996371390468
+      rid: 8499410996371390472
   references:
     version: 2
     RefIds:
-    - rid: 8499410996371390468
+    - rid: 8499410996371390472
       type: {class: StableWrapper_A267E89016F1406E8E008FB9588F3135, ns: __StableWrapper__, asm: __StableWrapper__}
       data:
         <Value>k__BackingField:
-          Value: 123
+          Int: 123
 --- !u!4 &1469426791
 Transform:
   m_ObjectHideFlags: 0
@@ -177,6 +178,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1469426792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469426789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba6f359721bcd14380c1318aa72f5b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Reference:
+    _wrapper:
+      rid: 8499410996371390473
+  references:
+    version: 2
+    RefIds:
+    - rid: 8499410996371390473
+      type: {class: StableWrapper_3DDC5AB5736A46919208B5641C9E7DE5, ns: __StableWrapper__, asm: __StableWrapper__}
+      data:
+        <Value>k__BackingField:
+          Float: 321.91
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace UnityStableReference.Editor
@@ -14,7 +15,7 @@ namespace UnityStableReference.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            property = property.FindProperProperty();
+            property = property.GetVisibleChildren().Single();
             EditorGUI.PropertyField(position, property, label, includeChildren: true);
         }
     }
