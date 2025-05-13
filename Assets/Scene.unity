@@ -153,12 +153,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Reference:
     _wrapper:
-      rid: -2
+      rid: 8499410996371390468
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 8499410996371390468
+      type: {class: StableWrapper_A267E89016F1406E8E008FB9588F3135, ns: __StableWrapper__, asm: __StableWrapper__}
+      data:
+        <Value>k__BackingField:
+          Value: 123
 --- !u!4 &1469426791
 Transform:
   m_ObjectHideFlags: 0
