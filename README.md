@@ -1,6 +1,6 @@
 # Unity Stable Reference
 
-A Unity package that provides stable serialized references to objects through source generation, allowing for reliable serialization even after type changes.
+A Unity package that provides stable `[SerializeReference]` to objects through source generation, allowing for reliable serialization even after type changes.
 
 ## Requirements
 
