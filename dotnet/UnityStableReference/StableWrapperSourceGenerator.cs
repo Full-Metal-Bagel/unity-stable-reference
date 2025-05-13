@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 
 namespace UnityStableReference;
 
@@ -13,10 +11,10 @@ namespace UnityStableReference;
 public class StableWrapperSourceGenerator : IIncrementalGenerator
 {
     // Define diagnostic descriptor
-    private readonly DiagnosticDescriptor s_noTypeGuid = new(
+    private readonly DiagnosticDescriptor s_noGuid = new(
         id: "SW001",
-        title: "Type must have `TypeGuidAttribute`",
-        messageFormat: "Type {0} must have `TypeGuidAttribute` for generating stable wrapper",
+        title: "Type must have `GuidAttribute`",
+        messageFormat: "Type {0} must have `GuidAttribute` for generating stable wrapper",
         category: "StableWrapper",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true
@@ -24,32 +22,34 @@ public class StableWrapperSourceGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Check for assembly attribute first
-        var hasAssemblyAttribute = context.CompilationProvider.Select((compilation, _) =>
-            compilation.Assembly.GetAttributes()
-                .Any(attr => attr.AttributeClass?.Name == "StableWrapperCodeGenAttribute"));
-
+        // Combine assembly attribute check with type provider
         var typeProvider = context.CompilationProvider.Select((compilation, _) =>
         {
+            // Check if assembly has the required attribute
+            var hasAssemblyAttribute = compilation.Assembly.GetAttributes()
+                .Any(attr => attr.AttributeClass?.Name == "StableWrapperCodeGenAttribute");
+
+            // If assembly doesn't have the attribute, return empty collection
+            if (!hasAssemblyAttribute) return Enumerable.Empty<INamedTypeSymbol>();
+
             // Get types from current assembly and referenced assemblies
             var assemblies = compilation.References
                 .Select(compilation.GetAssemblyOrModuleSymbol)
                 .OfType<IAssemblySymbol>()
+                .Where(assembly => !assembly.Name.StartsWith("System.") && 
+                                  !assembly.Name.Equals("System") && 
+                                  !assembly.Name.Equals("mscorlib") &&
+                                  !assembly.Name.StartsWith("Microsoft.") &&
+                                  !assembly.Name.StartsWith("Unity"))
                 .Append(compilation.Assembly)
-            ;
+                .ToArray();
 
             return assemblies.SelectMany(assembly => assembly.GlobalNamespace.GetAllTypes())
                 .Where(type => type.GetAttributes().Any(a => a.AttributeClass?.Name == "StableWrapperCodeGenAttribute"))
             ;
         });
 
-        context.RegisterSourceOutput(
-            typeProvider.Combine(hasAssemblyAttribute),
-            (context, tuple) =>
-            {
-                if (!tuple.Right) return; // Skip if assembly attribute not present
-                GenerateStableWrapper(context, tuple.Left);
-            });
+        context.RegisterSourceOutput(typeProvider, GenerateStableWrapper);
     }
 
     private void GenerateStableWrapper(SourceProductionContext context, IEnumerable<INamedTypeSymbol> types)
@@ -61,19 +61,19 @@ public class StableWrapperSourceGenerator : IIncrementalGenerator
 
         foreach (var type in types)
         {
-             if (!type.GetAttributes().Any(attr => attr.AttributeClass?.Name == "TypeGuidAttribute"))
+             if (!type.GetAttributes().Any(attr => attr.AttributeClass?.Name == "GuidAttribute"))
              {
                  context.ReportDiagnostic(Diagnostic.Create(
-                     s_noTypeGuid,
+                     s_noGuid,
                      type.Locations.FirstOrDefault(),
                      type.Name));
                  continue;
              }
 
-             var guidAttr = type.GetAttributes() .First(attr => attr.AttributeClass?.Name == "TypeGuidAttribute");
+             var guidAttr = type.GetAttributes() .First(attr => attr.AttributeClass?.Name == "GuidAttribute");
              var guid = guidAttr.ConstructorArguments[0].Value?.ToString() ?.Replace("\"", "").Replace("-", "");
              code.AppendLine($$"""
-                               [System.Serializable] public class StableWrapper_{{guid}} : Game.StableWrapper<{{type.ToDisplayString()}}> { }
+                               [System.Serializable] public class StableWrapper_{{guid}} : UnityStableReference.StableWrapper<{{type.ToDisplayString()}}> { }
                                """);
         }
 
