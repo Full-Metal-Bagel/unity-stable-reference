@@ -22,18 +22,6 @@ Unity Stable Reference solves the problem of maintaining references to objects i
 
 Unity Stable Reference uses Roslyn source generators to create stable wrapper classes for your types. When you mark a type with the `[StableWrapperCodeGen]` attribute and a `[Guid]` attribute, the system generates specialized wrapper classes that can be reliably serialized by Unity.
 
-## Installation
-
-### Via Unity Package Manager
-
-1. Open the Package Manager in Unity (Window > Package Manager)
-2. Click the "+" button and select "Add package from git URL..."
-3. Enter: `https://github.com/quabug/unity-stable-reference.git`
-
-### Manual Installation
-
-Clone this repository and copy the contents to your project's Packages directory.
-
 ## Usage
 
 1. Import the sample "Generated Stable Wrappers":
