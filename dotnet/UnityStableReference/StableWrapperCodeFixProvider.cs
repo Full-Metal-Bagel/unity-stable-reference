@@ -19,6 +19,10 @@ public class StableWrapperCodeFixProvider : CodeFixProvider
 
     public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
+    // Flag for testing to use a predictable GUID
+    public static bool UseTestingGuid { get; set; }
+    private const string TestGuid = "59029207-F6B6-4477-978A-62CE931D6619";
+
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
@@ -41,8 +45,10 @@ public class StableWrapperCodeFixProvider : CodeFixProvider
 
     private async Task<Document> AddGuidAttributeAsync(Document document, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
     {
-        // Generate a new GUID
-        var guid = System.Guid.NewGuid().ToString("D").ToUpper();
+        // Generate a new GUID or use the test GUID
+        var guid = UseTestingGuid
+            ? TestGuid
+            : System.Guid.NewGuid().ToString("D").ToUpper();
         
         // Create a new attribute syntax
         var attributeSyntax = SyntaxFactory.Attribute(
