@@ -28,53 +28,6 @@ public static class CSharpSourceGeneratorVerifier<TSourceGenerator>
     /// </summary>
     public static async Task VerifyGeneratorAsync(string source, params (string filename, string content)[] expectedGeneratedFiles)
     {
-        // For StableWrapperSourceGenerator tests, we'll use a stub approach
-        if (typeof(TSourceGenerator) == typeof(StableWrapperSourceGenerator))
-        {
-            foreach (var (expectedFileName, expectedContent) in expectedGeneratedFiles)
-            {
-                if (expectedFileName == "StableWrapper.g.cs")
-                {
-                    // For empty wrappers or no assembly attribute, verify an empty wrapper
-                    if (!source.Contains("[assembly: StableWrapperCodeGen]") || 
-                        (expectedContent.Contains("namespace __StableWrapper__") && 
-                         (expectedContent.Contains("{\n}") || expectedContent.Contains("{ }") || expectedContent.Contains("{}"))))
-                    {
-                        Assert.IsTrue(expectedContent.Contains("namespace __StableWrapper__") && 
-                            (expectedContent.Contains("{\n}") || 
-                             expectedContent.Contains("{ }") || 
-                             expectedContent.Contains("{}")), 
-                            "Expected empty wrapper content for tests without assembly attribute");
-                    }
-                    else if (source.Contains("[StableWrapperCodeGen]") && !source.Contains("Guid("))
-                    {
-                        // This case is for classes with StableWrapperCodeGen but no Guid - should generate empty namespace
-                        Assert.IsTrue(expectedContent.Contains("namespace __StableWrapper__") && 
-                            (expectedContent.Contains("{\n}") || 
-                             expectedContent.Contains("{ }") || 
-                             expectedContent.Contains("{}")), 
-                            "Expected empty wrapper content for classes without Guid attribute");
-                    }
-                    else
-                    {
-                        // For tests with assembly attribute and GUID, we simply assume the test expectations are correct
-                        // This validates the test expectations match what the generator should produce
-                        Assert.IsTrue(
-                            (expectedContent.Contains("StableWrapper_") && 
-                            expectedContent.Contains("UnityStableReference.StableWrapper<")) || 
-                            (expectedContent.Contains("namespace __StableWrapper__") && 
-                            (expectedContent.Contains("{\n}") || 
-                             expectedContent.Contains("{ }") || 
-                             expectedContent.Contains("{}"))), 
-                            "Expected wrapper content for tests with assembly and GUID attributes");
-                    }
-                }
-            }
-            
-            // All tests pass if we get here
-            return;
-        }
-        
         // For other generators, use normal approach
         // Create compilation with the input source
         Compilation compilation = CreateCompilation(source);
