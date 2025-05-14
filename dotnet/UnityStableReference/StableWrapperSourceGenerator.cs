@@ -51,13 +51,13 @@ public class StableWrapperSourceGenerator : IIncrementalGenerator
 
         foreach (var type in types)
         {
-             if (!type.GetAttributes().Any(attr => attr.AttributeClass?.Name == "GuidAttribute"))
+             var guidAttr = type.GetAttributes().SingleOrDefault(attr => attr.AttributeClass?.Name == "GuidAttribute");
+             if (guidAttr == null)
              {
                  // Diagnostic reporting is now handled by the analyzer
                  continue;
              }
 
-             var guidAttr = type.GetAttributes().First(attr => attr.AttributeClass?.Name == "GuidAttribute");
              var guid = guidAttr.ConstructorArguments[0].Value?.ToString()?.Replace("\"", "").Replace("-", "");
              code.AppendLine($$"""
                                [System.Serializable] public class StableWrapper_{{guid}} : UnityStableReference.StableWrapper<{{type.ToDisplayString()}}> { }

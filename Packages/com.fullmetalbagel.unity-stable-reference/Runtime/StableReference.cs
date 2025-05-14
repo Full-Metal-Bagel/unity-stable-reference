@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
 
 namespace UnityStableReference;
 
@@ -20,7 +19,10 @@ public interface IStableWrapper<out T> : IStableWrapper
 [Serializable]
 public class StableWrapper<T> : IStableWrapper<T>
 {
-    [field: SerializeField] public T Value { get; private set; } = default!;
+#if UNITY_5_6_OR_NEWER
+    [field: UnityEngine.SerializeField]
+#endif
+    public T Value { get; private set; } = default!;
 }
 
 [SuppressMessage("Design", "CA1000:Do not declare static members on generic types")]
@@ -29,7 +31,10 @@ public class StableWrapper<T> : IStableWrapper<T>
 public record struct StableReference<T>() where T : notnull
 {
     public static string WrapperPropertyName => nameof(_wrapper);
-    [SerializeReference] private IStableWrapper _wrapper = default!;
+#if UNITY_5_6_OR_NEWER
+    [UnityEngine.SerializeReference]
+#endif
+    private IStableWrapper _wrapper = default!;
     public T Value => ((IStableWrapper<T>)_wrapper).Value;
     public static implicit operator T(StableReference<T> self) => self.Value;
 }

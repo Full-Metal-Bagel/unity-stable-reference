@@ -69,5 +69,13 @@ public static class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             var nullableWarnings = commandLineArguments.CompilationOptions.SpecificDiagnosticOptions;
             return nullableWarnings;
         }
+        
+        protected override ImmutableArray<(Project project, Diagnostic diagnostic)> FilterDiagnostics(ImmutableArray<(Project project, Diagnostic diagnostic)> diagnostics)
+        {
+            // Filter out CS1705 errors (assembly reference version mismatch)
+            return base.FilterDiagnostics(diagnostics)
+                .Where(d => d.diagnostic.Id != "CS1705")
+                .ToImmutableArray();
+        }
     }
 }

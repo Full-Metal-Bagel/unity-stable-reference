@@ -41,7 +41,7 @@ public class StableWrapperCodeFixProviderTests
             .WithArguments("TestClass");
 
         // Enable the testing mode to use a fixed GUID
-        UnityStableReference.StableWrapperCodeFixProvider.UseTestingGuid = true;
+        StableWrapperCodeFixProvider.UseTestingGuid = true;
         try
         {
             await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
@@ -49,7 +49,7 @@ public class StableWrapperCodeFixProviderTests
         finally
         {
             // Reset to default behavior
-            UnityStableReference.StableWrapperCodeFixProvider.UseTestingGuid = false;
+            StableWrapperCodeFixProvider.UseTestingGuid = false;
         }
     }
 }

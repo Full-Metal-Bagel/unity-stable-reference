@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sample\Sample.csproj" />
+    <Compile Include="..\..\Packages\com.fullmetalbagel.unity-stable-reference\Runtime\StableReference.cs" />
     <ProjectReference Include="..\UnityStableReference\UnityStableReference.csproj" />
   </ItemGroup>
 
