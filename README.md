@@ -64,6 +64,27 @@ public class MyComponent : MonoBehaviour
 }
 ```
 
+## Comparison with Unity's MoveFromAttribute
+
+Unity's built-in `[MoveFrom]` attribute provides an alternative approach to handle serialization issues. Understanding its advantages and disadvantages can help determine when to use this package instead.
+
+### MoveFromAttribute Advantages
+- Simple to implement with minimal setup (just add the attribute with a path string)
+- Built into Unity with no additional dependencies
+- No runtime overhead after deserialization is complete
+- Works well for straightforward field renames and moves between parent/child classes
+- Handles one-time migrations where the serialized path is known
+- Native integration with Unity's serialization system
+
+### MoveFromAttribute Disadvantages
+- Limited to handling field renames and simple relocations
+- Cannot maintain references when changing between interface implementations
+- Doesn't work well with polymorphic types or significant class restructuring
+- Path strings can be error-prone and hard to maintain
+- Not designed for ongoing type evolution scenarios
+
+`UnityStableReference` is ideal when you need more robust reference stability, especially when significant refactoring is anticipated.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
