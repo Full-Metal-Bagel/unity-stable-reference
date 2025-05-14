@@ -36,6 +36,24 @@ Unity Stable Reference uses Roslyn source generators to create stable wrapper cl
    - Open the assembly definition file (asmdef)
    - Add your project's assembly as a reference in the Inspector
 
+<details>
+<summary>Alternatively, you can also:</summary>
+
+1. Add the assembly-level attribute to your project:
+   - Create or open any C# file in your _Assembly-CSharp_ assembly
+   - Add the following line at the top of the file (outside any namespace):
+     ```csharp
+     [assembly: UnityStableReference.StableWrapperCodeGen]
+     ```
+   - Make sure to add the appropriate using statement if needed
+
+2. Enable Auto Referenced on your assemblies:
+   - For each assembly that uses `[StableWrapperCodeGen]`, locate its assembly definition file (.asmdef)
+   - Select the .asmdef file in the Inspector
+   - Check the "Auto Referenced" checkbox to ensure the generated code is properly referenced
+   - Save the changes
+</details>
+    
 3. Add necessary attribute to your type:
 
 ```csharp
