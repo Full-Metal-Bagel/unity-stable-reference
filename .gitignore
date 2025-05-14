@@ -66,4 +66,4 @@ sysinfo.txt
 crashlytics-build.properties
 
 
-!/Standard/
+!/dotnet/**/*

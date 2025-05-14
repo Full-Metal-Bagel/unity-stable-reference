@@ -10,16 +10,6 @@ namespace UnityStableReference;
 [Generator]
 public class StableWrapperSourceGenerator : IIncrementalGenerator
 {
-    // Define diagnostic descriptor
-    private readonly DiagnosticDescriptor s_noGuid = new(
-        id: "SW001",
-        title: "Type must have `GuidAttribute`",
-        messageFormat: "Type {0} must have `GuidAttribute` for generating stable wrapper",
-        category: "StableWrapper",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true
-    );
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Combine assembly attribute check with type provider
@@ -61,17 +51,14 @@ public class StableWrapperSourceGenerator : IIncrementalGenerator
 
         foreach (var type in types)
         {
-             if (!type.GetAttributes().Any(attr => attr.AttributeClass?.Name == "GuidAttribute"))
+             var guidAttr = type.GetAttributes().SingleOrDefault(attr => attr.AttributeClass?.Name == "GuidAttribute");
+             if (guidAttr == null)
              {
-                 context.ReportDiagnostic(Diagnostic.Create(
-                     s_noGuid,
-                     type.Locations.FirstOrDefault(),
-                     type.Name));
+                 // Diagnostic reporting is now handled by the analyzer
                  continue;
              }
 
-             var guidAttr = type.GetAttributes() .First(attr => attr.AttributeClass?.Name == "GuidAttribute");
-             var guid = guidAttr.ConstructorArguments[0].Value?.ToString() ?.Replace("\"", "").Replace("-", "");
+             var guid = guidAttr.ConstructorArguments[0].Value?.ToString()?.Replace("\"", "").Replace("-", "");
              code.AppendLine($$"""
                                [System.Serializable] public class StableWrapper_{{guid}} : UnityStableReference.StableWrapper<{{type.ToDisplayString()}}> { }
                                """);

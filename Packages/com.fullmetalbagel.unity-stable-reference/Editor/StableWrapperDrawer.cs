@@ -9,7 +9,7 @@ namespace UnityStableReference.Editor
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            property = property.FindProperProperty();
+            property = property.GetVisibleChildren().Single();
             return EditorGUI.GetPropertyHeight(property, includeChildren: true);
         }
 
