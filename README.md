@@ -1,8 +1,10 @@
 [![openupm](https://img.shields.io/npm/v/com.fullmetalbagel.unity-stable-reference?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.fullmetalbagel.unity-stable-reference/)
 
-# Unity Stable Reference
+# Unity Stable Reference (with inspector support)
 
 A Unity package that provides stable `[SerializeReference]` to objects through source generation, allowing for reliable serialization even after type changes.
+
+<img src="https://github.com/user-attachments/assets/46634cf0-07e3-41ec-b8c8-85a62672a686" width="400" />
 
 ## Requirements
 
