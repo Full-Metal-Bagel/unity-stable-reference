@@ -1,5 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using UnityStableReference;
+﻿using UnityStableReference;
+using System.Runtime.InteropServices;
 
 [assembly: StableWrapperCodeGen]
 
@@ -7,5 +7,5 @@ namespace UnityStableReference.Sample;
 
 public interface IFoo { }
 
-[Guid("8F9CC34B-A30B-48AB-967C-5B3F0CE0793A"), StableWrapperCodeGen]
+[StableWrapperCodeGen, Guid("BADA070C-7EA8-4A91-B83A-CD3F3B2EC108")]
 public class Foo : IFoo { }
