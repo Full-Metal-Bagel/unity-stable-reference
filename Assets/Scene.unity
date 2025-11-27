@@ -155,14 +155,34 @@ MonoBehaviour:
   Reference:
     _wrapper:
       rid: 8499410996371390472
+  ListReference:
+  - _wrapper:
+      rid: 8499411030466101248
+  - _wrapper:
+      rid: 8499411030466101249
+  - _wrapper:
+      rid: 3886811605642248192
   references:
     version: 2
     RefIds:
+    - rid: 3886811605642248192
+      type: {class: StableWrapper_DB4EAC44D2E6466786506AFAFC5439E6, ns: __StableWrapper__, asm: __StableWrapper__}
+      data: {}
     - rid: 8499410996371390472
       type: {class: StableWrapper_A267E89016F1406E8E008FB9588F3135, ns: __StableWrapper__, asm: __StableWrapper__}
       data:
         <Value>k__BackingField:
           Int: 123
+    - rid: 8499411030466101248
+      type: {class: StableWrapper_A267E89016F1406E8E008FB9588F3135, ns: __StableWrapper__, asm: __StableWrapper__}
+      data:
+        <Value>k__BackingField:
+          Int: 23
+    - rid: 8499411030466101249
+      type: {class: StableWrapper_3DDC5AB5736A46919208B5641C9E7DE5, ns: __StableWrapper__, asm: __StableWrapper__}
+      data:
+        <Value>k__BackingField:
+          Float: 1.23
 --- !u!4 &1469426791
 Transform:
   m_ObjectHideFlags: 0
@@ -193,6 +213,9 @@ MonoBehaviour:
   Reference:
     _wrapper:
       rid: 8499410996371390473
+  ListReference:
+  - _wrapper:
+      rid: 8499411030466101250
   references:
     version: 2
     RefIds:
@@ -201,6 +224,11 @@ MonoBehaviour:
       data:
         <Value>k__BackingField:
           Float: 321.91
+    - rid: 8499411030466101250
+      type: {class: StableWrapper_A267E89016F1406E8E008FB9588F3135, ns: __StableWrapper__, asm: __StableWrapper__}
+      data:
+        <Value>k__BackingField:
+          Int: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

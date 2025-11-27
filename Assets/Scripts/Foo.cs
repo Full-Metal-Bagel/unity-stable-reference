@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityStableReference;
@@ -30,9 +31,19 @@ public class FooImpl2 : IFoo
     }
 }
 
+[Serializable, Guid("DB4EAC44-D2E6-4667-8650-6AFAFC5439E6"), StableWrapperCodeGen]
+public class FooImpl3 : IFoo
+{
+    public void Print()
+    {
+        Debug.Log("FooImpl3");
+    }
+}
+
 public class Foo : MonoBehaviour
 {
     public StableReference<IFoo> Reference;
+    public List<StableReference<IFoo>> ListReference;
 
     private void Start()
     {
