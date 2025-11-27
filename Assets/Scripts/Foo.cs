@@ -19,6 +19,15 @@ public class FooImpl1 : IFoo
     }
 }
 
+[Serializable, Guid("35FE2D63-412D-41AA-9F0D-BB3416F11235"), StableWrapperCodeGen]
+public class FooImpl3 : IFoo
+{
+    public void Print()
+    {
+        Debug.Log("FooImpl3");
+    }
+}
+
 [Serializable, Guid("3DDC5AB5-736A-4691-9208-B5641C9E7DE5"), StableWrapperCodeGen]
 public class FooImpl2 : IFoo
 {
